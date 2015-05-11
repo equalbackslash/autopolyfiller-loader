@@ -20,6 +20,13 @@ module.exports = function(source, sourceMap) {
 
         // append require()s with absoluted paths to neccessary polyfills
         polyfills.forEach(function(polyfill) {
+            // replace certain pollyfills that are getting in different directories
+            if (polyfill === "Window.prototype.base64"){
+                polyfill = "atob"
+            }
+            if (polyfill === "Window.prototype.matchMedia"){
+                polyfill = "matchMedia";
+            }
             inject += 'require(' + JSON.stringify(require.resolve('polyfill-service/polyfills/' + polyfill + '/polyfill')) + ');';
             inject += '\n';
         });
